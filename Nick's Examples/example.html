@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Collab-Hub Example Web Interface</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container header">HEADER text</div>
+    <div id="main_interface" class="section">
+      <div id="section_1" class="container">
+        <label>Start Event</label>
+        <input
+          type="button"
+          class="button"
+          id="start_button"
+          header="startPiece"
+          value="startPiece"
+        />
+      </div>
+      <div id="section_2" class="container">
+        <label>Stop Event</label>
+        <input
+          type="button"
+          class="button"
+          id="stop_button"
+          header="stopPiece"
+          value="stopPiece"
+        />
+      </div>
+    </div>
+    <div id="sliders" class="section">
+      <div id="section_1" class="container">
+        <label for="slider_1">Slider 1</label>
+        <input
+          type="range"
+          class="slider"
+          id="slider_1"
+          header="slider_1"
+          min="0"
+          max="127"
+        />
+      </div>
+      <div id="section_2" class="container">
+        <label for="slider_2">Slider 2</label>
+        <input type="range" class="slider" id="slider_2" header="slider_2" />
+      </div>
+    </div>
+    <div id="xypad" class="section">
+      <div id="section_1" class="container">
+        <label>XY Pad</label>
+        <input
+          type="button"
+          class="button"
+          id="button_3"
+          header="button_3"
+          value="XY Pad"
+        />
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="ch-interface.js" async defer></script>
+  </body>
+</html>
