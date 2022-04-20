@@ -1,6 +1,7 @@
 //Collab-Hub Web Interface
 console.log("Collab-Hub Web Interface");
 var socket;
+var img;
 
 window.onload = () => {
   // connect to the collab-hub server at namespace '/hub'
@@ -17,7 +18,70 @@ window.onload = () => {
   });
 
   registerEventHandlers(socket);
+
+  //
 };
+
+
+///********* LOOK HERE */
+imgInp.onchange = evt => {
+  // console.dir(imgInp);
+  const [file] = imgInp.files
+  if (file) {
+    // blah.src = URL.createObjectURL(file);
+    img  = new Image();
+    img.onload = imageLoaded;
+    img.src = URL.createObjectURL(file);
+    console.log(imgInp.value);
+  }
+}
+
+function imageLoaded(){
+  console.log("image loaded");
+  let canvas = document.getElementById("canvas");
+  let ctx = canvas.getContext("2d");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  console.log(img.width);
+  console.log(img.height);
+
+  imgWidth = img.width;
+  imgHeight = img.height;
+  console.log(ctx.getImageData(0, 0, 1, 1).data);
+  // read pixels into array
+  let imgDims = [imgWidth, imgHeight];
+  let pixels = [];
+
+  // reduce
+  let wRed = imgWidth / 16;
+  let hRed = imgHeight / 16;
+
+  // 'rows'
+  for (let row = 0; row < 16; row++) {
+    for(let col = 0; col < 16; col++) {
+      for(let k = 0; k < 4; k++) {
+        let index = (row * 64) + (col * 4) + k;
+        console.log(index);
+        pixels[index] = ctx.getImageData(row * wRed, col * hRed, wRed, hRed).data[k];
+      }
+    }
+  }
+
+  console.dir(pixels);
+  console.log(socket);
+  socket.emit("control", {
+    header: "imageInfo",
+    mode: "push",
+    target: "all",
+    values: pixels,
+  });
+
+  console.log("image sent");
+}
+
+
+
 
 registerEventHandlers = (socket) => {
   // Find the DOM elements and register interaction handlers

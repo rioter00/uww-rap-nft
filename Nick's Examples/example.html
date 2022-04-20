@@ -11,6 +11,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   </head>
   <body>
     <div class="container header">HEADER text</div>
@@ -53,18 +54,25 @@
         <input type="range" class="slider" id="slider_2" header="slider_2" />
       </div>
     </div>
-    <div id="xypad" class="section">
-      <div id="section_1" class="container">
-        <label>XY Pad</label>
-        <input
-          type="button"
-          class="button"
-          id="button_3"
-          header="button_3"
-          value="XY Pad"
-        />
+
+    <div id="imageUpload" class="section">
+      <div class="container">
+        <form>
+          <input accept="image/*" type='file' id="imgInp" />
+          <!-- <img id="blah" src="#" alt="your image" /> -->
+        </form>
+      </div>
+      <div class="container">
+        <div id="tempCanvas">
+          <canvas id="canvas" width="400" height="400"></canvas>
+        </div>
       </div>
     </div>
+
+
+
+
+
 
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script src="ch-interface.js" async defer></script>
