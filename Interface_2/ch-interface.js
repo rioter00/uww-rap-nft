@@ -3,6 +3,9 @@
 console.log("Collab-Hub Web Interface");
 var socket;
 var img;
+var timeouts = [];
+
+const TIMEOUTDUR = 5000;
 // var resolution;
 
 window.onload = () => {
@@ -19,12 +22,20 @@ window.onload = () => {
         // console.log("Connected to server");
     });
 
+    socket.on("control", (data) => {
+      if(data.header == "timeout"){
+        if(timeouts.includes(data.values)){
+          console.log("timeout already started");
+        } else {
+          console.log("starting timeout: " + data.values);
+          startMyTimeout(data.values);
+        }
+      }
+    });
+
     registerEventHandlers(socket);
 	
 	imgInp = document.getElementById("imgInp");
-	resolutionInput = document.getElementById("resolution");
-	resolutionInput.addEventListener("change", updateResolutionValue);
-	console.log("resolution: " + resolution);
 };
 
 ///********* LOOK HERE */
@@ -94,6 +105,7 @@ registerEventHandlers = (socket) => {
     const sliders = Array.from(document.querySelectorAll(".slider"));
     sliders.forEach((slider) => {
         console.log(slider);
+        console.log(slider.id);
         slider.oninput = emitControl;
     });
 
@@ -102,18 +114,21 @@ registerEventHandlers = (socket) => {
     console.log(typeof buttons);
     buttons.forEach((button) => {
         console.log(button);
+        console.log(button.id);
         button.onclick = emitEvent;
     });
 };
 
 emitEvent = (input) => {
     console.log(`ooooo button clicked: ${input.target.attributes.header.value}`);
+    console.log(`ooooo button id: ${input.target.value}`);
     // Send a message to the server
     socket.emit("event", {
         header: input.target.attributes.header.value,
         mode: "push",
         target: "all",
     });
+    startOtherTimeout(input.target.id);
 };
 
 emitControl = (input) => {
@@ -128,4 +143,37 @@ emitControl = (input) => {
         target: "all",
         values: input.target.value,
     });
+    startOtherTimeout(input.target.id);
 };
+
+startOtherTimeout = (id) => {
+    console.log(`start other timeout`);
+    socket.emit("control", {
+      header: "timeout",
+      mode: "push",
+      target: "all",
+      values: id
+  });
+}
+
+startMyTimeout = (id) => {
+    console.log(`start my timeout: ${id}`);
+    console.log(document.getElementById(id));
+    document.getElementById(id).disabled = true;
+    timeouts.push(id);
+    console.dir (timeouts);
+    setTimeout(() => {
+      enableElement(id);
+    }, TIMEOUTDUR);
+}
+
+
+
+enableElement = (id) => {
+  document.getElementById(id).disabled = false;
+  timeouts.pop(id);
+}
+
+getTimeout = () => {
+
+}
