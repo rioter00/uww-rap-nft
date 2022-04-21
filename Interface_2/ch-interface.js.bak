@@ -1,0 +1,131 @@
+// JavaScript source code
+//Collab-Hub Web Interface
+console.log("Collab-Hub Web Interface");
+var socket;
+var img;
+// var resolution;
+
+window.onload = () => {
+    // connect to the collab-hub server at namespace '/hub'
+    socket = io.connect("https://ch-server.herokuapp.com/hub", {
+        // automatically connect with a username
+        query: {
+            username: "example_username",
+        },
+    });
+
+    // after connected, register event handlers
+    socket.on("connect", () => {
+        // console.log("Connected to server");
+    });
+
+    registerEventHandlers(socket);
+	
+	imgInp = document.getElementById("imgInp");
+	resolutionInput = document.getElementById("resolution");
+	resolutionInput.addEventListener("change", updateResolutionValue);
+	console.log("resolution: " + resolution);
+};
+
+///********* LOOK HERE */
+updateResolutionValue = () => {
+  console.log(`resolution changed to ${resolutionInput.value}`);
+  resolution = resolutionInput.value;
+}
+
+imgInp.onchange = evt => {
+  // console.dir(imgInp);
+  const [file] = imgInp.files
+  if (file) {
+    // blah.src = URL.createObjectURL(file);
+    img  = new Image();
+    img.onload = imageLoaded;
+    img.src = URL.createObjectURL(file);
+    console.log(imgInp.value);
+  }
+}
+
+function imageLoaded(){
+  console.log("image loaded");
+  let canvas = document.getElementById("canvas");
+  let ctx = canvas.getContext("2d");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  console.log(img.width);
+  console.log(img.height);
+
+  imgWidth = img.width;
+  imgHeight = img.height;
+  console.log(ctx.getImageData(0, 0, 1, 1).data);
+  // read pixels into array
+  let imgDims = [imgWidth, imgHeight];
+  let pixels = [];
+
+  // reduce
+  let wRed = imgWidth / 32;
+  let hRed = imgHeight / 32;
+
+  // 'rows'
+  for (let row = 0; row < 32; row++) {
+    for(let col = 0; col < 32; col++) {
+      for(let k = 0; k < 4; k++) {
+        let index = (row * 128) + (col * 4) + k;
+        console.log(index);
+        pixels[index] = ctx.getImageData(row * wRed, col * hRed, wRed, hRed).data[k];
+      }
+    }
+  }
+
+  console.dir(pixels);
+  console.log(socket);
+  socket.emit("control", {
+    header: "imageInfo",
+    mode: "push",
+    target: "all",
+    values: pixels,
+  });
+
+  console.log("image sent");
+}
+
+registerEventHandlers = (socket) => {
+    // Find the DOM elements and register interaction handlers
+    const sliders = Array.from(document.querySelectorAll(".slider"));
+    sliders.forEach((slider) => {
+        console.log(slider);
+        slider.oninput = emitControl;
+    });
+
+    // register a handler for the 'event' event
+    const buttons = Array.from(document.querySelectorAll(".button"));
+    console.log(typeof buttons);
+    buttons.forEach((button) => {
+        console.log(button);
+        button.onclick = emitEvent;
+    });
+};
+
+emitEvent = (input) => {
+    console.log(`ooooo button clicked: ${input.target.attributes.header.value}`);
+    // Send a message to the server
+    socket.emit("event", {
+        header: input.target.attributes.header.value,
+        mode: "push",
+        target: "all",
+    });
+};
+
+emitControl = (input) => {
+    console.log(`control`);
+    console.dir(input);
+    console.log(`slider header: ${input.target.attributes.header.value}`);
+    console.log(`slider value: ${input.target.value}`);
+    // Send a message to the server
+    socket.emit("control", {
+        header: input.target.attributes.header.value,
+        mode: "push",
+        target: "all",
+        values: input.target.value,
+    });
+};

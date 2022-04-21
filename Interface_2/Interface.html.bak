@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Collab-Hub Example Web Interface</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container header">Generative NFT</div>
+    <div id="main_interface" class="section">
+        <div id="section_1" class="container">
+            <label>Start Event</label>
+            <input type="button"
+                   class="button"
+                   id="start_button"
+                   header="START"
+                   value="START" />
+        </div>
+        <div id="section_2" class="container">
+            <label>Stop Event</label>
+            <input type="button"
+                   class="button"
+                   id="stop_button"
+                   header="STOP"
+                   value="STOP" />
+        </div>
+        <div id="section_2" class="container">
+            <label>Picture Event</label>
+            <input type="button"
+                   class="button"
+                   id="stop_button"
+                   header="PICTURE 1"
+                   value="PICTURE 1" />
+        </div>
+        <div id="section_2" class="container">
+            <label>Picture Event</label>
+            <input type="button"
+                   class="button"
+                   id="stop_button"
+                   header="PICTURE 2"
+                   value="PICTURE 2" />
+        </div>
+        <div id="section_2" class="container">
+            <label>Picture Event</label>
+            <input type="button"
+                   class="button"
+                   id="stop_button"
+                   header="PICTURE 3"
+                   value="PICTURE 3" />
+        </div>
+        <div id="section_3" class="container">
+            <label>Change Filter</label>
+            <input type="button"
+                   class="button"
+                   id="stop_button"
+                   header="FILTER"
+                   value="FILTER" />
+        </div>
+    </div>
+    <div id="sliders" class="section">
+        <div id="section_1" class="container">
+            <label for="slider_1">NoiseSlider</label>
+            <input type="range"
+                   class="slider"
+                   id="slider_1"
+                   header="slider_1"
+                   min="0"
+                   max="100" />
+        </div>
+    </div>
+	<div id="imageUpload" class="section">
+      <div class="container">
+        <form>
+          <input accept="image/*" type='file' id="imgInp" />
+          <!-- <img id="blah" src="#" alt="your image" /> -->
+        </form>
+        <!-- Resolution
+        <input type="number" id="resolution" value="16" min="8" max="64"/> -->
+
+      </div>
+      <div class="container">
+        <div id="tempCanvas">
+          <canvas id="canvas" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+    <div id="xypad" class="section">
+        <div id="section_1" class="container">
+            <label>XY Pad</label>
+            <input type="button"
+                   class="button"
+                   id="button_3"
+                   header="button_3"
+                   value="XY Pad" />
+        </div>
+        <div id="section_3" class="container">
+            <label>Finger Paint ON</label>
+            <input type="button"
+                   class="button"
+                   id="start_button"
+                   header="FINGER PAINT ON"
+                   value="FINGER PAINT ON" />
+        </div>
+        <div id="section_3" class="container">
+            <label>Finger Paint OFF</label>
+            <input type="button"
+                   class="button"
+                   id="start_button"
+                   header="FINGER PAINT OFF"
+                   value="FINGER PAINT OFF" />
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="ch-interface.js" async defer></script>
+</body>
+</html>
