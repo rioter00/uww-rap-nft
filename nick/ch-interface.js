@@ -2,8 +2,11 @@
 console.log("Collab-Hub Web Interface");
 var socket;
 var img;
+// var resolution;
+
 
 window.onload = () => {
+  console.log("window loaded");
   // connect to the collab-hub server at namespace '/hub'
   socket = io.connect("https://ch-server.herokuapp.com/hub", {
     // automatically connect with a username
@@ -14,16 +17,25 @@ window.onload = () => {
 
   // after connected, register event handlers
   socket.on("connect", () => {
-    // console.log("Connected to server");
+    console.log("Connected to server");
   });
 
   registerEventHandlers(socket);
 
-  //
+  imgInp = document.getElementById("imgInp");
+  resolutionInput = document.getElementById("resolution");
+  resolutionInput.addEventListener("change", updateResolutionValue);
+  console.log("resolution: " + resolution);
+  
 };
 
 
 ///********* LOOK HERE */
+updateResolutionValue = () => {
+  console.log(`resolution changed to ${resolutionInput.value}`);
+  resolution = resolutionInput.value;
+}
+
 imgInp.onchange = evt => {
   // console.dir(imgInp);
   const [file] = imgInp.files
@@ -84,10 +96,12 @@ function imageLoaded(){
 
 
 registerEventHandlers = (socket) => {
+  console.log('regster event handlers');
+
   // Find the DOM elements and register interaction handlers
   const sliders = Array.from(document.querySelectorAll(".slider"));
   sliders.forEach((slider) => {
-    console.log(slider);
+    // console.log(slider);
     slider.oninput = emitControl;
   });
 
@@ -95,7 +109,7 @@ registerEventHandlers = (socket) => {
   const buttons = Array.from(document.querySelectorAll(".button"));
   console.log(typeof buttons);
   buttons.forEach((button) => {
-    console.log(button);
+    // console.log(button);
     button.onclick = emitEvent;
   });
 };
