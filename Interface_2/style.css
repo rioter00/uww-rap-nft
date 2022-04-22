@@ -64,7 +64,9 @@ label {
   padding: 5px;
 }
 
-input[type="button"] {
+input[type="button"],
+input[type="file"]
+ {
   background-color: var(--ch-dark);
   color: var(--light-color);
   border-color: var(--light-color);
@@ -74,7 +76,7 @@ input[type="button"] {
   padding: 5px;
   margin: 5px;
   cursor: pointer;
-  width: 200px;
+  width: 250px;
   font-size: 16px;
 }
 
