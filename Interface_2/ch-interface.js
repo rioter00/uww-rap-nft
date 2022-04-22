@@ -83,7 +83,7 @@ function imageLoaded(){
     for(let col = 0; col < 16; col++) {
       for(let k = 0; k < 4; k++) {
         let index = (row * 64) + (col * 4) + k;
-        console.log(index);
+        // console.log(index);
         pixels[index] = ctx.getImageData(row * wRed, col * hRed, wRed, hRed).data[k];
       }
     }
@@ -105,8 +105,8 @@ registerEventHandlers = (socket) => {
     // Find the DOM elements and register interaction handlers
     const sliders = Array.from(document.querySelectorAll(".slider"));
     sliders.forEach((slider) => {
-        console.log(slider);
-        console.log(slider.id);
+        // console.log(slider);
+        // console.log(slider.id);
         slider.oninput = emitControl;
     });
 
@@ -114,15 +114,15 @@ registerEventHandlers = (socket) => {
     const buttons = Array.from(document.querySelectorAll(".button"));
     console.log(typeof buttons);
     buttons.forEach((button) => {
-        console.log(button);
-        console.log(button.id);
+        // console.log(button);
+        // console.log(button.id);
         button.onclick = emitEvent;
     });
 };
 
 emitEvent = (input) => {
-    console.log(`ooooo button clicked: ${input.target.attributes.header.value}`);
-    console.log(`ooooo button id: ${input.target.value}`);
+    // console.log(`ooooo button clicked: ${input.target.attributes.header.value}`);
+    // console.log(`ooooo button id: ${input.target.value}`);
     // Send a message to the server
     socket.emit("event", {
         header: input.target.attributes.header.value,
@@ -133,10 +133,10 @@ emitEvent = (input) => {
 };
 
 emitControl = (input) => {
-    console.log(`control`);
-    console.dir(input);
-    console.log(`slider header: ${input.target.attributes.header.value}`);
-    console.log(`slider value: ${input.target.value}`);
+    // console.log(`control`);
+    // console.dir(input);
+    // console.log(`slider header: ${input.target.attributes.header.value}`);
+    // console.log(`slider value: ${input.target.value}`);
     // Send a message to the server
     socket.emit("control", {
         header: input.target.attributes.header.value,
@@ -148,7 +148,7 @@ emitControl = (input) => {
 };
 
 startOtherTimeout = (id) => {
-    console.log(`start other timeout`);
+    // console.log(`start other timeout`);
     socket.emit("control", {
       header: "timeout",
       mode: "push",
@@ -158,8 +158,8 @@ startOtherTimeout = (id) => {
 }
 
 startMyTimeout = (id) => {
-    console.log(`start my timeout: ${id}`);
-    console.log(document.getElementById(id));
+    // console.log(`start my timeout: ${id}`);
+    // console.log(document.getElementById(id));
     document.getElementById(id).disabled = true;
     timeouts.push(id);
     console.dir (timeouts);
